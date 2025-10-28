@@ -1,97 +1,41 @@
 public class builder {
-
     public static void main(String[] args) {
-        
         Car.CarBuilder builder1 = new Car.CarBuilder();
-        Car car1 = builder1.setEngine("V8")
-                .setColor("Red")
-                .setSeats(5)
-                .setSunroof(true)
-                .build(); 
+        Car car1 = builder1.setColor("Red")
+                .setGears(3)
+                .build();
         System.out.println(car1);
 
-        
         Car.CarBuilder builder2 = new Car.CarBuilder();
-        Car car2 = builder2.setEngine("V6")
-                .setColor("Blue")
-                .setSeats(4)
-                .build(); 
+        Car car2 = builder2.setColor("Blue")
+                .build();
         System.out.println(car2);
     }
 }
 
-
 class Car {
-    private String engine;
-    private int wheels;
-    private int seats;
     private String color;
-    private boolean sunroof;
-    private boolean navigationSystem;
+    private int wheels;
+    private int gears;
 
-    
     private Car(CarBuilder builder) {
-        this.engine = builder.engine;
-        this.wheels = builder.wheels;
-        this.seats = builder.seats;
         this.color = builder.color;
-        this.sunroof = builder.sunroof;
-        this.navigationSystem = builder.navigationSystem;
-    }
-
-    
-
-    public String getEngine() {
-        return engine;
-    }
-
-    public int getWheels() {
-        return wheels;
-    }
-
-    public int getSeats() {
-        return seats;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public boolean hasSunroof() {
-        return sunroof;
-    }
-
-    public boolean hasNavigationSystem() {
-        return navigationSystem;
+        this.wheels = builder.wheels;
+        this.gears = builder.gears;
     }
 
     @Override
     public String toString() {
-        return "Car [engine=" + engine + ", wheels=" + wheels + ", seats=" + seats
-                + ", color=" + color + ", sunroof=" + sunroof
-                + ", navigationSystem=" + navigationSystem + "]";
+        return "Car [color=" + color + ", wheels=" + wheels + ", gears=" + gears + "]";
     }
 
-    
-    
     public static class CarBuilder {
-        
-        private String engine; 
-        private int wheels = 4; 
-        private int seats = 5; 
-        private String color = "Black"; 
-        private boolean sunroof = false; 
-        private boolean navigationSystem = false; 
+        private String color = "Black";
+        private int wheels = 4;
+        private int gears = 5;
 
-        
-        public CarBuilder() {
-        }
-
-        
-        
-
-        public CarBuilder setEngine(String engine) {
-            this.engine = engine;
+        public CarBuilder setColor(String color) {
+            this.color = color;
             return this;
         }
 
@@ -100,30 +44,13 @@ class Car {
             return this;
         }
 
-        public CarBuilder setSeats(int seats) {
-            this.seats = seats;
+        public CarBuilder setGears(int gears) {
+            this.gears = gears;
             return this;
         }
 
-        public CarBuilder setColor(String color) {
-            this.color = color;
-            return this;
-        }
-
-        public CarBuilder setSunroof(boolean sunroof) {
-            this.sunroof = sunroof;
-            return this;
-        }
-
-        public CarBuilder setNavigationSystem(boolean navigationSystem) {
-            this.navigationSystem = navigationSystem;
-            return this;
-        }
-
-        
         public Car build() {
-            
-            return new Car(this); 
+            return new Car(this);
         }
     }
 }
