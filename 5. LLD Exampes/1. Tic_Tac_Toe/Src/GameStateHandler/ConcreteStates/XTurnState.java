@@ -11,7 +11,10 @@ public class XTurnState implements GameState {
         if(hasWon){
             context.setState(player.getSymbol() == Symbol.X ? new XWonState() : new OWonState());
         }
-        context.setState(new XTurnState());
+        else {
+            // If current state was X's turn and there's no winner, switch to O's turn
+            context.setState(new OTurnState());
+        }
     }
 
     @Override
