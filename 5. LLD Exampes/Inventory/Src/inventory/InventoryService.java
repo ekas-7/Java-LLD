@@ -13,8 +13,14 @@ public class InventoryService {
 
     // Create new item and return created Item
     public Item createItem(String name, String sku, String description, int quantity, double price) {
+        // basic validation
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("name is required");
+        if (sku == null || sku.isBlank()) throw new IllegalArgumentException("sku is required");
+        if (quantity < 0) throw new IllegalArgumentException("quantity cannot be negative");
+        if (price < 0) throw new IllegalArgumentException("price cannot be negative");
+
         String id = UUID.randomUUID().toString();
-        Item item = new Item(id, name, sku, description, quantity, price);
+        Item item = new Item(id, name.trim(), sku.trim(), description == null ? "" : description.trim(), quantity, price);
         repo.save(item);
         return item;
     }
@@ -29,6 +35,10 @@ public class InventoryService {
 
     public List<Item> searchByName(String query) {
         return repo.searchByName(query);
+    }
+
+    public List<Item> searchBySku(String skuQuery) {
+        return repo.searchBySku(skuQuery);
     }
 
     public boolean deleteItem(String id) {

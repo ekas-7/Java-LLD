@@ -1,6 +1,8 @@
 package Inventory.Src.inventory;
 
 import java.util.Objects;
+import java.util.Locale;
+import java.text.NumberFormat;
 
 public class Item {
     private final String id; // unique identifier
@@ -11,6 +13,12 @@ public class Item {
     private double price;
 
     public Item(String id, String name, String sku, String description, int quantity, double price) {
+        if (id == null || id.isBlank()) throw new IllegalArgumentException("id is required");
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("name is required");
+        if (sku == null || sku.isBlank()) throw new IllegalArgumentException("sku is required");
+        if (quantity < 0) throw new IllegalArgumentException("quantity cannot be negative");
+        if (price < 0) throw new IllegalArgumentException("price cannot be negative");
+
         this.id = id;
         this.name = name;
         this.sku = sku;
@@ -60,19 +68,22 @@ public class Item {
     }
 
     public void setPrice(double price) {
+        if (price < 0) throw new IllegalArgumentException("price cannot be negative");
         this.price = price;
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", sku='" + sku + '\'' +
-                ", description='" + description + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
+    NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+    String priceStr = nf.format(price);
+    return "Item{" +
+        "id='" + id + '\'' +
+        ", name='" + name + '\'' +
+        ", sku='" + sku + '\'' +
+        ", description='" + (description == null ? "" : description) + '\'' +
+        ", quantity=" + quantity +
+        ", price=" + priceStr +
+        '}';
     }
 
     @Override

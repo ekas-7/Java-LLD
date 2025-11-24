@@ -22,7 +22,8 @@ public class Main {
             switch (choice) {
                 case "1" -> handleAdd(service);
                 case "2" -> handleList(service);
-                case "3" -> handleSearch(service);
+                case "3" -> handleSearchByName(service);
+                case "7" -> handleSearchBySku(service);
                 case "4" -> handleUpdateQuantity(service);
                 case "5" -> handleDelete(service);
                 case "6" -> handleUpdatePrice(service);
@@ -38,6 +39,7 @@ public class Main {
         System.out.println("1) Add item");
         System.out.println("2) List items");
         System.out.println("3) Search by name");
+        System.out.println("7) Search by SKU");
         System.out.println("4) Update quantity (+/-)");
         System.out.println("5) Delete item");
         System.out.println("6) Update price");
@@ -52,12 +54,16 @@ public class Main {
         String sku = scanner.nextLine();
         System.out.print("Description: ");
         String desc = scanner.nextLine();
-        System.out.print("Quantity: ");
-        int qty = Integer.parseInt(scanner.nextLine().trim());
-        System.out.print("Price: ");
-        double price = Double.parseDouble(scanner.nextLine().trim());
-        Item item = service.createItem(name, sku, desc, qty, price);
-        System.out.println("Created: " + item.getId());
+        try {
+            System.out.print("Quantity: ");
+            int qty = Integer.parseInt(scanner.nextLine().trim());
+            System.out.print("Price: ");
+            double price = Double.parseDouble(scanner.nextLine().trim());
+            Item item = service.createItem(name, sku, desc, qty, price);
+            System.out.println("Created: " + item.getId());
+        } catch (NumberFormatException | IllegalArgumentException ex) {
+            System.out.println("Failed to create item: " + ex.getMessage());
+        }
     }
 
     private static void handleList(InventoryService service) {
@@ -79,13 +85,33 @@ public class Main {
         else res.forEach(System.out::println);
     }
 
+    private static void handleSearchByName(InventoryService service) {
+        System.out.print("Query: ");
+        String q = scanner.nextLine();
+        List<Item> res = service.searchByName(q);
+        if (res.isEmpty()) System.out.println("No matches");
+        else res.forEach(System.out::println);
+    }
+
+    private static void handleSearchBySku(InventoryService service) {
+        System.out.print("SKU Query: ");
+        String q = scanner.nextLine();
+        List<Item> res = service.searchBySku(q);
+        if (res.isEmpty()) System.out.println("No matches");
+        else res.forEach(System.out::println);
+    }
+
     private static void handleUpdateQuantity(InventoryService service) {
         System.out.print("Item id: ");
         String id = scanner.nextLine();
         System.out.print("Delta (use negative to subtract): ");
-        int delta = Integer.parseInt(scanner.nextLine().trim());
-        boolean ok = service.updateQuantity(id, delta);
-        System.out.println(ok ? "Updated" : "Failed (not found or insufficient qty)");
+        try {
+            int delta = Integer.parseInt(scanner.nextLine().trim());
+            boolean ok = service.updateQuantity(id, delta);
+            System.out.println(ok ? "Updated" : "Failed (not found or insufficient qty)");
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid number: " + ex.getMessage());
+        }
     }
 
     private static void handleDelete(InventoryService service) {
@@ -99,8 +125,12 @@ public class Main {
         System.out.print("Item id: ");
         String id = scanner.nextLine();
         System.out.print("New price: ");
-        double p = Double.parseDouble(scanner.nextLine().trim());
-        Optional<Item> updated = service.updatePrice(id, p);
-        System.out.println(updated.isPresent() ? "Price updated" : "Not found");
+        try {
+            double p = Double.parseDouble(scanner.nextLine().trim());
+            Optional<Item> updated = service.updatePrice(id, p);
+            System.out.println(updated.isPresent() ? "Price updated" : "Not found");
+        } catch (NumberFormatException | IllegalArgumentException ex) {
+            System.out.println("Invalid price: " + ex.getMessage());
+        }
     }
 }
