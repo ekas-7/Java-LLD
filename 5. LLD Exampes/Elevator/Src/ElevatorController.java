@@ -20,13 +20,28 @@ public class ElevatorController {
     }
 
     private Elevator chooseElevator(int floor) {
-        // Very simple policy: pick the idle elevator closest to requested floor,
-        // otherwise pick first available.
-        Optional<Elevator> best = elevators.stream()
+        // 1) Prefer idle elevator closest to the requested floor
+        Optional<Elevator> idleClosest = elevators.stream()
             .filter(e -> e.getState() == Elevator.State.IDLE)
             .min((a, b) -> Integer.compare(Math.abs(a.getCurrentFloor() - floor), Math.abs(b.getCurrentFloor() - floor)));
-        if (best.isPresent()) return best.get();
-        return elevators.get(0);
+        if (idleClosest.isPresent()) return idleClosest.get();
+
+        // 2) Prefer elevators that are moving and will pass the requested floor in the correct direction
+        Optional<Elevator> passing = elevators.stream()
+            .filter(e -> e.getState() == Elevator.State.MOVING)
+            .filter(e -> {
+                Direction dir = e.getCurrentDirection();
+                if (dir == Direction.UP) return e.getCurrentFloor() <= floor;
+                if (dir == Direction.DOWN) return e.getCurrentFloor() >= floor;
+                return false;
+            })
+            .min((a, b) -> Integer.compare(Math.abs(a.getCurrentFloor() - floor), Math.abs(b.getCurrentFloor() - floor)));
+        if (passing.isPresent()) return passing.get();
+
+        // 3) Fallback: pick the closest elevator regardless of state
+        return elevators.stream()
+            .min((a, b) -> Integer.compare(Math.abs(a.getCurrentFloor() - floor), Math.abs(b.getCurrentFloor() - floor)))
+            .orElse(elevators.get(0));
     }
 
     public List<Elevator> getElevators() { return elevators; }
