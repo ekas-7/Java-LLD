@@ -1,0 +1,12 @@
+Src/FoodItemFactory/ConcreteFoodItems/BonusFood.java
+Src/FoodItemFactory/ConcreteFoodItems/NormalFood.java
+Src/FoodItemFactory/FoodFactory.java
+Src/FoodItemFactory/FoodItem.java
+Src/Controller/SnakeGame.java
+Src/Main.java
+Src/MovementStrategyPackage/MovementStrategy.java
+Src/MovementStrategyPackage/ConcreteStrategy/AlMovement.java
+Src/MovementStrategyPackage/ConcreteStrategy/HumanMovementStrategy.java
+Src/Utility/Pair.java
+Src/Utility/Snake.java
+Src/Utility/GameBoard.java
