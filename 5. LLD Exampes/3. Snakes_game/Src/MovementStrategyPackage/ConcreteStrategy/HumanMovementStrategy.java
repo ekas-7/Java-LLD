@@ -3,7 +3,7 @@ package MovementStrategyPackage.ConcreteStrategy;
 import MovementStrategyPackage.MovementStrategy;
 import Utility.Pair;
 
-public class HumanMovement implements MovementStrategy {
+public class HumanMovementStrategy implements MovementStrategy {
     @Override
     public Pair getNextPosition(Pair currentHead, String direction) {
         int row = currentHead.getRow();
