@@ -46,6 +46,19 @@ public class ElevatorController {
         return floors;
     }
 
+    // Retrieve an elevator by its id
+    public Elevator getElevatorById(int id) {
+        if (elevators == null) {
+            return null;
+        }
+        for (Elevator e : elevators) {
+            if (e.getId() == id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     //setters
 
     public void setCurrentElevator(int elevatorId){
@@ -72,6 +85,40 @@ public class ElevatorController {
         } else {
             // If no suitable elevator is found
             System.out.println("No elevator available for floor " + floorNumber);
+        }
+    }
+
+     public void requestFloor(int elevatorId, int floorNumber) {
+        // Find the elevator by its ID
+        Elevator elevator = getElevatorById(elevatorId);
+        if (elevator == null) {
+            System.out.println("Elevator " + elevatorId + " not found for internal request to floor " + floorNumber);
+            return;
+        }
+        System.out.println("Internal request: Elevator " + elevator.getId()
+                + " to floor " + floorNumber);
+        // Determine the direction of the request
+        Direction direction = floorNumber > elevator.getCurrentFloor()
+                ? Direction.UP
+                : Direction.DOWN;
+        // Add the request to the elevator (constructor expects: elevatorId, floor, Direction, isInternalRequest)
+        elevator.addRequest(
+                new ElevatorRequest(elevatorId, floorNumber, direction, true));
+    }
+
+     public void step() {
+        // Iterate through all elevators
+        for (Elevator elevator : elevators) {
+            // Only process elevators with pending requests
+            if (!elevator.getRequests().isEmpty()) {
+                // Use the scheduling algorithm to find the next stop
+                int nextStop = schedulingAlgo.getNextStop(elevator);
+
+
+                // Move the elevator to the next stop if needed
+                if (elevator.getCurrentFloor() != nextStop)
+                    elevator.moveToNextStop(nextStop);
+            }
         }
     }
 
