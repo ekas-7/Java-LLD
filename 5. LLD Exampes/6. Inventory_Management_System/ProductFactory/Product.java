@@ -68,4 +68,12 @@ public abstract class Product {
     public void setCategory(ProductCategory category) {
         this.category = category;
     }
+
+    public void addStock(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        this.quantity -= quantity;
+    }
 }
