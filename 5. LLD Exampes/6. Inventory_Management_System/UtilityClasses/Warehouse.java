@@ -1,9 +1,8 @@
 package UtilityClasses;
 
-import Product.Product;
-
-
 import java.util.Map;
+
+import ProductFactory.Product;
 
 public class Warehouse {
     private int warehouseId;

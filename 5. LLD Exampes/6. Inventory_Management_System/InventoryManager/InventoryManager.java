@@ -1,10 +1,11 @@
 package InventoryManager;
 
 import UtilityClasses.Warehouse;
-import Product.ProductFactory;
 import ProductReplinshmentStrategies.ProductReplinshment;
 
 import java.util.List;
+
+import ProductFactory.ProductFactory;
 
 public class InventoryManager {
     private static InventoryManager instance;
