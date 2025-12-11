@@ -1,7 +1,7 @@
 package InventoryManager;
 
 import UtilityClasses.Warehouse;
-import ProductReplinshmentStrategies.ProductReplinshment;
+import ProductReplinshmentStrategies.ProductReplinshmentStrategy;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public class InventoryManager {
     private static InventoryManager instance;
     private List<Warehouse> warehouses;
     private ProductFactory productFactory;
-    private ProductReplinshment replinshmentStrategy;
+    private ProductReplinshmentStrategy replinshmentStrategy;
 }
