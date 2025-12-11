@@ -27,4 +27,4 @@ Follows FIFO (mostly).
 
 Used for scheduling, processing tasks.
 
-Examples: PriorityQueue, ArrayDeque.
+Examples: PriorityQueue, ArrayDeque, LinkedList
