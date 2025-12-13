@@ -1,5 +1,8 @@
 package VehicleFactory;
 
+import CommanEnum.VehicleType;
+import CommanEnum.VehicleStatus;
+
 public class Vehicle {
     private String registrationNumber;
     private String make;
